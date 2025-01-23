@@ -21,6 +21,7 @@ library(inspectdf)
 library(tidyverse)
 library(tidyquant)
 library(gt)
+library(GWalkR)
 
 # make a quick dataset
 # mt cars is weird as has index name which I want to convert to a column varible
@@ -49,6 +50,10 @@ describe(data)
 # also gt table
 describe(data) |> 
   gt()
+
+# summary
+summary(data)
+
 
 # Corrplot: Correlation matrix visualization ----
 corrplot(
@@ -90,7 +95,7 @@ data |>
   adorn_pct_formatting()
 
 data |>
-  tabyl(Species) |>
+  tabyl(make) |>
   adorn_totals("row") |>
   adorn_pct_formatting() |>
   gt()
@@ -113,13 +118,26 @@ inspect_cat(data) |>
 inspect_cor(data)
 
 inspect_cor(data) |>
-  show_plot()
+  show_plot() + theme_minimal()
 
 # with a bit of love, I think that last chart could be a really good alternative
 # to correlation matrix
 
-p <-inspect_cor(data) |>
-  show_plot() 
+# GWalkR - 
+
+gwalkr(data)
+
+
+
+
+
+
+
+
+######################################
+
+
+
 
 
 # also a little play with geomtextpath
@@ -147,6 +165,7 @@ ggplot(dat, aes(
   ) +
   theme_minimal() +
   theme(legend.position = "none")
+
 
 # add in smoothing line
 ggplot(dat, aes(x = period, 
@@ -353,7 +372,7 @@ ggplot(df, aes(x, y, fill = x)) +
   scale_fill_brewer(type = "qual") +
   theme(axis.text.x = element_text(size = 15),
         legend.position = "none") +
-  scale_x_discrete(labels = wrap_format(10))
+  scale_x_discrete(labels = wrap_format(15))
 
 
 # found this version to turn it into a polar style, quite nice if you 
